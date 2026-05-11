@@ -1,4 +1,4 @@
-#include "BuoyantCurvatureSwirlTools2.H"
+#include "BuoyantCurvatureSwirlTools3.H"
 #include "addToRunTimeSelectionTable.H"
 #include "volFields.H"
 #include "surfaceFields.H"
@@ -10,12 +10,12 @@
 namespace Foam
 {
 
-defineTypeNameAndDebug(BuoyantCurvatureSwirlTools2, 0);
+defineTypeNameAndDebug(BuoyantCurvatureSwirlTools3, 0);
 
 
 // * * * * * * * * * * * * * * Private Helper Functions  * * * * * * * * * //
 
-vector BuoyantCurvatureSwirlTools2::normalisedAxis(const vector& axis)
+vector BuoyantCurvatureSwirlTools3::normalisedAxis(const vector& axis)
 {
     scalar magAxis = mag(axis);
 
@@ -30,7 +30,7 @@ vector BuoyantCurvatureSwirlTools2::normalisedAxis(const vector& axis)
 }
 
 
-vectorField BuoyantCurvatureSwirlTools2::cellRelPosition() const
+vectorField BuoyantCurvatureSwirlTools3::cellRelPosition() const
 {
     const vectorField& C = mesh_.C();
 
@@ -45,7 +45,7 @@ vectorField BuoyantCurvatureSwirlTools2::cellRelPosition() const
 }
 
 
-tmp<volScalarField> BuoyantCurvatureSwirlTools2::axialVelocity
+tmp<volScalarField> BuoyantCurvatureSwirlTools3::axialVelocity
 (
     const volVectorField& U
 ) const
@@ -80,28 +80,12 @@ tmp<volScalarField> BuoyantCurvatureSwirlTools2::axialVelocity
 }
 
 
-void BuoyantCurvatureSwirlTools2::radialDistanceAndTangentialVelocity
+tmp<volScalarField> BuoyantCurvatureSwirlTools3::tangentialVelocity
 (
-    const volVectorField& U,
-    tmp<volScalarField>& tr,
-    tmp<volScalarField>& tuTheta
+    const volVectorField& U
 ) const
 {
     const vectorField relPos(cellRelPosition());
-
-    volScalarField* rPtr = new volScalarField
-    (
-        IOobject
-        (
-            "r",
-            mesh_.time().name(),
-            mesh_,
-            IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-        mesh_,
-        dimensionedScalar("zero", dimLength, 0.0)
-    );
 
     volScalarField* uThetaPtr = new volScalarField
     (
@@ -118,7 +102,6 @@ void BuoyantCurvatureSwirlTools2::radialDistanceAndTangentialVelocity
     );
 
     volScalarField& uTheta = *uThetaPtr;
-    volScalarField& r = *rPtr;
 
     forAll(U, i)
     {
@@ -129,21 +112,18 @@ void BuoyantCurvatureSwirlTools2::radialDistanceAndTangentialVelocity
         const vector er = vr/(rMag + SMALL);
         const vector eTheta = axisDirection_ ^ er;
 
-        r[i] = rMag;
         uTheta[i] = (U[i] & eTheta);
     }
 
-    r.correctBoundaryConditions();
     uTheta.correctBoundaryConditions();
 
-    tr = tmp<volScalarField>(rPtr);
-    tuTheta = tmp<volScalarField>(uThetaPtr);
+    return tmp<volScalarField>(uThetaPtr);
 }
 
 
 // * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * * //
 
-BuoyantCurvatureSwirlTools2::BuoyantCurvatureSwirlTools2
+BuoyantCurvatureSwirlTools3::BuoyantCurvatureSwirlTools3
 (
     const fvMesh& mesh,
     const dictionary& dict
@@ -169,18 +149,6 @@ BuoyantCurvatureSwirlTools2::BuoyantCurvatureSwirlTools2
         (
             dict.lookupOrDefault<vector>("axisDirection", vector(0, 0, 1))
         )
-    ),
-    S0_
-    (
-        "S0",
-        dimless,
-        dict.lookupOrDefault<scalar>("S0", 0.2)
-    ),
-    S1_
-    (
-        "S1",
-        dimless,
-        dict.lookupOrDefault<scalar>("S1", 0.8)
     ),
     frMax_
     (
@@ -215,7 +183,7 @@ BuoyantCurvatureSwirlTools2::BuoyantCurvatureSwirlTools2
     swirlEps_
     (
         "swirlEps",
-        dimensionSet(0, 0, -2, 0, 0, 0, 0),
+        sqr(dimVelocity),
         dict.lookupOrDefault<scalar>("swirlEps", 1e-6)
     ),
     Cg_
@@ -233,24 +201,19 @@ BuoyantCurvatureSwirlTools2::BuoyantCurvatureSwirlTools2
             << exit(FatalError);
     }
 
-    if (S1_.value() <= S0_.value())
-    {
-        FatalErrorInFunction
-            << "Require S1 > S0, but got S0=" << S0_.value()
-            << " and S1=" << S1_.value()
-            << exit(FatalError);
-    }
-
     if (cCurv_.value() <= 0)
     {
         FatalErrorInFunction
             << "Require cCurv > 0, but got cCurv=" << cCurv_.value()
             << exit(FatalError);
     }
+
+    Info<< "BuoyantCurvatureSwirlTools3 (BCST3): "
+        << "F_swirl = |u_theta| / sqrt(u_theta^2 + u_z^2 + eps)" << nl;
 }
 
 
-bool BuoyantCurvatureSwirlTools2::read(const dictionary& dict)
+bool BuoyantCurvatureSwirlTools3::read(const dictionary& dict)
 {
     curvatureCorrection_ =
         dict.lookupOrDefault<Switch>("curvatureCorrection", curvatureCorrection_);
@@ -264,8 +227,6 @@ bool BuoyantCurvatureSwirlTools2::read(const dictionary& dict)
         dict.lookupOrDefault<vector>("axisDirection", axisDirection_)
     );
 
-    S0_.readIfPresent(dict);
-    S1_.readIfPresent(dict);
     frMax_.readIfPresent(dict);
     cCurv_.readIfPresent(dict);
     cr1_.readIfPresent(dict);
@@ -282,14 +243,6 @@ bool BuoyantCurvatureSwirlTools2::read(const dictionary& dict)
             << exit(FatalError);
     }
 
-    if (S1_.value() <= S0_.value())
-    {
-        FatalErrorInFunction
-            << "Require S1 > S0, but got S0=" << S0_.value()
-            << " and S1=" << S1_.value()
-            << exit(FatalError);
-    }
-
     if (cCurv_.value() <= 0)
     {
         FatalErrorInFunction
@@ -301,13 +254,13 @@ bool BuoyantCurvatureSwirlTools2::read(const dictionary& dict)
 }
 
 
-bool BuoyantCurvatureSwirlTools2::active() const
+bool BuoyantCurvatureSwirlTools3::active() const
 {
     return curvatureCorrection_ || swirlCorrection_ || buoyancyCorrection_;
 }
 
 
-curvatureSwirlData2 BuoyantCurvatureSwirlTools2::evaluate
+curvatureSwirlData3 BuoyantCurvatureSwirlTools3::evaluate
 (
     const volVectorField& U,
     const volTensorField& gradU,
@@ -317,7 +270,7 @@ curvatureSwirlData2 BuoyantCurvatureSwirlTools2::evaluate
     const volScalarField& nut
 ) const
 {
-    curvatureSwirlData2 data;
+    curvatureSwirlData3 data;
 
     const dimensionedScalar zero(dimless, 0.0);
     const dimensionedScalar one(dimless, 1.0);
@@ -329,37 +282,10 @@ curvatureSwirlData2 BuoyantCurvatureSwirlTools2::evaluate
 
     if (needSwirlFields)
     {
-        radialDistanceAndTangentialVelocity(U, data.r, data.uTheta);
+        data.uTheta = tangentialVelocity(U);
         data.Uaxial = axialVelocity(U);
 
-        const dimensionedScalar rSmall("rSmall", dimLength, SMALL);
-
-        const volScalarField uThetaOverR
-        (
-            mag(data.uTheta()) / max(data.r(), rSmall)
-        );
-
-        const volScalarField uZOverR
-        (
-            mag(data.Uaxial()) / max(data.r(), rSmall)
-        );
-
-        data.Slocal = tmp<volScalarField>
-        (
-            new volScalarField
-            (
-                IOobject
-                (
-                    "Slocal",
-                    mesh_.time().name(),
-                    mesh_,
-                    IOobject::NO_READ,
-                    IOobject::NO_WRITE
-                ),
-                uThetaOverR / sqrt(sqr(uThetaOverR) + sqr(uZOverR) + swirlEps_)
-            )
-        );
-
+        // F_swirl = |u_θ| / sqrt(u_θ² + u_z² + ε)
         data.Fswirl = tmp<volScalarField>
         (
             new volScalarField
@@ -376,7 +302,13 @@ curvatureSwirlData2 BuoyantCurvatureSwirlTools2::evaluate
                 (
                     max
                     (
-                        (data.Slocal() - S0_)/(S1_ - S0_),
+                        mag(data.uTheta())
+                      / sqrt
+                        (
+                            sqr(data.uTheta())
+                          + sqr(data.Uaxial())
+                          + swirlEps_
+                        ),
                         zero
                     ),
                     one
@@ -386,7 +318,6 @@ curvatureSwirlData2 BuoyantCurvatureSwirlTools2::evaluate
 
         if (!swirlCorrection_)
         {
-            data.Slocal.ref() = zero;
             data.Fswirl.ref() = zero;
         }
     }
@@ -700,10 +631,8 @@ curvatureSwirlData2 BuoyantCurvatureSwirlTools2::evaluate
 
     if (writeFields_ && mesh_.time().writeTime())
     {
-        if (data.r.valid()) data.r().write();
         if (data.uTheta.valid()) data.uTheta().write();
         if (data.Uaxial.valid()) data.Uaxial().write();
-        if (data.Slocal.valid()) data.Slocal().write();
         if (data.Fswirl.valid()) data.Fswirl().write();
         if (data.fr.valid()) data.fr().write();
         data.frEff().write();

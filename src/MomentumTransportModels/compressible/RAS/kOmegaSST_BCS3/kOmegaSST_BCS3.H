@@ -22,23 +22,26 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::RASModels::kOmegaSST_BCS2
+    Foam::RASModels::kOmegaSST_BCS3
 
 Description
     k-omega SST turbulence model using the shared
-    BuoyantCurvatureSwirlTools2 helper for curvature, swirl and optional
+    BuoyantCurvatureSwirlTools3 helper for curvature, swirl and optional
     buoyancy modifications.
 
+    Swirl blending uses the velocity-based formulation:
+        F_swirl = |u_theta| / sqrt(u_theta^2 + u_z^2 + eps)
+
 SourceFiles
-    kOmegaSST_BCS2.C
+    kOmegaSST_BCS3.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef kOmegaSST_BCS2_H
-#define kOmegaSST_BCS2_H
+#ifndef kOmegaSST_BCS3_H
+#define kOmegaSST_BCS3_H
 
 #include "kOmegaSST.H"
-#include "BuoyantCurvatureSwirlTools2.H"
+#include "BuoyantCurvatureSwirlTools3.H"
 
 namespace Foam
 {
@@ -46,22 +49,22 @@ namespace RASModels
 {
 
 template<class BasicMomentumTransportModel>
-class kOmegaSST_BCS2
+class kOmegaSST_BCS3
 :
     public kOmegaSST<BasicMomentumTransportModel>
 {
 protected:
 
-    BuoyantCurvatureSwirlTools2 curvatureSwirlTools_;
+    BuoyantCurvatureSwirlTools3 curvatureSwirlTools_;
 
 public:
 
     typedef typename BasicMomentumTransportModel::alphaField alphaField;
     typedef typename BasicMomentumTransportModel::rhoField rhoField;
 
-    TypeName("kOmegaSST_BCS2");
+    TypeName("kOmegaSST_BCS3");
 
-    kOmegaSST_BCS2
+    kOmegaSST_BCS3
     (
         const alphaField& alpha,
         const rhoField& rho,
@@ -72,7 +75,7 @@ public:
         const word& type = typeName
     );
 
-    virtual ~kOmegaSST_BCS2()
+    virtual ~kOmegaSST_BCS3()
     {}
 
     virtual bool read();
@@ -85,7 +88,7 @@ public:
 } // End namespace Foam
 
 #ifdef NoRepository
-    #include "kOmegaSST_BCS2.C"
+    #include "kOmegaSST_BCS3.C"
 #endif
 
 #endif
