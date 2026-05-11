@@ -1,0 +1,50 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  11
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (sludge water);
+
+relativeVelocityModel general;
+
+"(simple|general|takas|Diehl)Coeffs"
+{
+    //Vc              2.241e-4;
+    //a               285.84;
+   // a1              0.1;
+   // residualAlpha   0;
+   
+    
+   // V0             0.00062327;
+  //  q              1.7003;
+   // X              8.4952;
+    
+    
+    V0             0.0001794;
+    q              3.58;
+    X              3.87;
+   
+
+    Vc              0.000239;
+    a               20.0;
+    a1              100000;
+    residualAlpha   0.0;
+    
+    tVc              -0.00055;
+    ta               14500;
+    ta1              565.5;
+    tresidualAlpha   0.0;
+}
+
+// ************************************************************************* //

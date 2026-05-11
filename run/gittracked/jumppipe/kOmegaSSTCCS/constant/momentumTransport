@@ -1,0 +1,62 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  11
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      momentumTransport;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+simulationType  RAS;
+
+RAS
+{
+    model           kOmegaSST_BCS3;
+    turbulence      on;
+    printCoeffs     off;
+
+    kOmegaSST_BCS3Coeffs
+    {
+        alphaK1             0.85;
+        alphaK2             1.0;
+        alphaOmega1         0.5;
+        alphaOmega2         0.856;
+        beta1               0.075;
+        beta2               0.0828;
+        betaStar            0.09;
+        gamma1              0.555556;
+        gamma2              0.44;
+        a1                  0.31;
+        b1                  1.0;
+        c1                  10.0;
+        F3                  no;
+
+        cCurv               1.0;
+        cr1                 1.0;
+        cr2                 2.0;
+        cr3                 1.0;
+
+        curvatureCorrection true;
+        swirlCorrection     true;
+        buoyancyCorrection  false;
+
+        axisOrigin          (0 0 0);
+        axisDirection       (0 0 1);
+
+        frMax               1.25;
+        swirlEps            1e-6;
+        Cg                  1.0;
+        writeFields         true;
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,41 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  11
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      physicalProperties.sludge;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+viscosityModel  slurry;
+
+"(plastic|BinghamPlastic|bokil)Coeffs"
+{
+    //coeff       0.00023143;
+    //exponent    179.26;
+  coeff       2.9e-06;
+  exponent    466.9;
+
+  BinghamCoeff    0.005;
+  BinghamExponent 141.363;
+  BinghamOffset   0;
+    
+    coeff1       1e-06;
+    exponent1    2009.7;    
+    coeff2       2.9e-06;
+    exponent2    466.9; 
+    muMax       10;
+    alphaMin     0.000689;
+}
+
+rho         2200;
+
+
+// ************************************************************************* //

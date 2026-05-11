@@ -1,0 +1,22 @@
+#!/bin/bash
+cd "${0%/*}" || exit 1    # Go to case directory
+
+echo "Cleaning case..."
+
+# Remove time directories
+foamListTimes -rm
+
+# Remove processor directories (parallel runs)
+rm -rf processor*
+
+# Remove logs
+rm -f log.*
+rm -f slum*
+
+# Remove postProcessing
+rm -rf postProcessing
+
+# Remove VTK files (if any)
+rm -rf VTK
+
+echo "Case cleaned."
