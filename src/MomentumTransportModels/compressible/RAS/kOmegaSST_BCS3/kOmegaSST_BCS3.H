@@ -57,6 +57,8 @@ protected:
 
     BuoyantCurvatureSwirlTools3 curvatureSwirlTools_;
 
+    volScalarField G_;
+
 public:
 
     typedef typename BasicMomentumTransportModel::alphaField alphaField;

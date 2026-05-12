@@ -75,6 +75,7 @@ protected:
 
     volScalarField k_;
     volScalarField epsilon_;
+    volScalarField G_;
 
     void boundEpsilon();
 

@@ -55,7 +55,20 @@ kOmegaSST_BCS3<BasicMomentumTransportModel>::kOmegaSST_BCS3
         viscosity,
         type
     ),
-    curvatureSwirlTools_(this->mesh_, this->coeffDict_)
+    curvatureSwirlTools_(this->mesh_, this->coeffDict_),
+    G_
+    (
+        IOobject
+        (
+            this->GName(),
+            this->runTime_.name(),
+            this->mesh_,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        this->mesh_,
+        dimensionedScalar("G", dimVelocity*dimVelocity/dimTime, 0)
+    )
 {
     if (type == typeName)
     {
@@ -119,6 +132,7 @@ void kOmegaSST_BCS3<BasicMomentumTransportModel>::correct()
         this->GName(),
         nut()*GbyNu
     );
+    G_.primitiveFieldRef() = G;
 
     tmp<volScalarField> tFrEff;
     const volScalarField* frEffPtr = nullptr;

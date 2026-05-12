@@ -210,6 +210,19 @@ realizableKE_BCS3<BasicMomentumTransportModel>::realizableKE_BCS3
             IOobject::AUTO_WRITE
         ),
         this->mesh_
+    ),
+    G_
+    (
+        IOobject
+        (
+            this->GName(),
+            this->runTime_.name(),
+            this->mesh_,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        this->mesh_,
+        dimensionedScalar("G", epsilon_.dimensions(), 0)
     )
 {
     bound(k_, this->kMin_);
@@ -287,6 +300,7 @@ void realizableKE_BCS3<BasicMomentumTransportModel>::correct()
         this->GName(),
         nut*(gradU.v() && dev(twoSymm(gradU.v())))
     );
+    G_.primitiveFieldRef() = G;
 
     tmp<volScalarField> tFrEff;
     const volScalarField* frEffPtr = nullptr;
