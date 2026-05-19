@@ -8,6 +8,7 @@ EXE_INC = \
     -IBuoyantCurvatureSwirlTools1/lnInclude \
     -IBuoyantCurvatureSwirlTools2/lnInclude \
     -IBuoyantCurvatureSwirlTools3/lnInclude \
+    -IBuoyantCurvatureSwirlTools4_Ri/lnInclude \
 
 LIB_LIBS = \
     -L$(FOAM_USER_LIBBIN) \
@@ -18,5 +19,6 @@ LIB_LIBS = \
     -lbuoyantCurvatureSwirlTools1 \
     -lbuoyantCurvatureSwirlTools2 \
     -lbuoyantCurvatureSwirlTools3 \
+    -lbuoyantCurvatureSwirlTools4_Ri \
     -lcompressibleMomentumTransportModels \
     -lmomentumTransportModels
