@@ -79,6 +79,15 @@ makeRASModel(kOmegaSST_BCS4_Ri);
 
 #include "realizableKE_BCS3_kande.H"
 makeRASModel(realizableKE_BCS3_kande);
+
+#include "kEpsilon_BCS3_kande.H"
+makeRASModel(kEpsilon_BCS3_kande);
+
+#include "RNGkEpsilon_BCS3_kande.H"
+makeRASModel(RNGkEpsilon_BCS3_kande);
+
+#include "kOmega_BCS3_kande.H"
+makeRASModel(kOmega_BCS3_kande);
 // -------------------------------------------------------------------------- //
 // LES models
 // -------------------------------------------------------------------------- //
