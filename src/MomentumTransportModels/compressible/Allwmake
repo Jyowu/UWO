@@ -1,0 +1,9 @@
+#!/bin/sh
+cd "${0%/*}" || exit 1
+
+wmake libso BuoyantCurvatureSwirlTools
+wmake libso BuoyantCurvatureSwirlTools1
+wmake libso BuoyantCurvatureSwirlTools2
+wmake libso BuoyantCurvatureSwirlTools3
+wmake libso BuoyantCurvatureSwirlTools4_Ri
+wmake libso .
