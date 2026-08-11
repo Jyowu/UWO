@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash Allclean)",
+      "Bash(find /opt /usr /home/jyothis -name \"postProcess\" -type f 2>/dev/null | head -5; ls /opt/ 2>/dev/null)",
+      "Read(//opt/**)"
+    ]
+  }
+}

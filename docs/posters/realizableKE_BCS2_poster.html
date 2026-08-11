@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>realizableKE_BCS2 Poster</title>
+  <style>
+    @page {
+      size: 594mm 420mm;
+      margin: 14mm;
+    }
+
+    :root {
+      --bg: #f5f1e8;
+      --paper: #fffdf9;
+      --ink: #16222f;
+      --muted: #5e6974;
+      --teal: #1f6b75;
+      --brick: #a14d37;
+      --olive: #6f7f36;
+      --line: #d5cec2;
+      --soft: #ece5d8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .poster {
+      width: 100%;
+      background:
+        linear-gradient(180deg, rgba(255, 253, 249, 0.94), rgba(255, 253, 249, 0.98)),
+        linear-gradient(90deg, rgba(31, 107, 117, 0.06), rgba(161, 77, 55, 0.05));
+      border: 1px solid var(--line);
+      padding: 14mm 14mm 9mm;
+      display: block;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 1.45fr 0.95fr;
+      gap: 7mm;
+      align-items: end;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 6mm;
+    }
+
+    .eyebrow {
+      font-size: 10pt;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 2mm;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28pt;
+      line-height: 1.04;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      margin-top: 3mm;
+      max-width: 34cm;
+      font-size: 11.4pt;
+      line-height: 1.36;
+      color: var(--muted);
+    }
+
+    .meta {
+      display: grid;
+      gap: 2.2mm;
+      align-self: stretch;
+      justify-self: end;
+      width: 100%;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.4mm;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+      padding: 2.8mm 3.2mm;
+      border-radius: 6px;
+    }
+
+    .pill-label {
+      font-size: 8.3pt;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 0.8mm;
+    }
+
+    .pill-value {
+      font-size: 10.2pt;
+      line-height: 1.18;
+      font-weight: 700;
+    }
+
+    .banner {
+      border-left: 5px solid var(--brick);
+      background: rgba(161, 77, 55, 0.08);
+      padding: 3.2mm 4mm;
+      font-size: 10.8pt;
+      line-height: 1.32;
+      margin-top: 7mm;
+    }
+
+    .banner strong {
+      color: var(--brick);
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1.05fr 1.15fr 0.9fr;
+      gap: 6mm;
+      align-items: start;
+      margin-top: 7mm;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 4.8mm;
+    }
+
+    .panel h2 {
+      margin: 0 0 4mm 0;
+      font-size: 14.6pt;
+      line-height: 1.15;
+    }
+
+    .accent-teal h2 {
+      color: var(--teal);
+    }
+
+    .accent-brick h2 {
+      color: var(--brick);
+    }
+
+    .accent-olive h2 {
+      color: var(--olive);
+    }
+
+    .lead {
+      margin: 0 0 3mm 0;
+      font-size: 9.7pt;
+      line-height: 1.34;
+      color: var(--muted);
+    }
+
+    .eq-block {
+      margin: 0 0 3.2mm 0;
+      padding: 3mm 3.2mm;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+
+    .eq-title {
+      margin: 0 0 2mm 0;
+      font-size: 8.3pt;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .eq {
+      margin: 0;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13.5pt;
+      line-height: 1.26;
+      word-spacing: 0.02em;
+    }
+
+    .eq.small {
+      font-size: 11.6pt;
+    }
+
+    .eq.compact {
+      line-height: 1.28;
+    }
+
+    .defs,
+    .notes,
+    .coeff-list {
+      margin: 0;
+      padding-left: 4.8mm;
+      font-size: 9.4pt;
+      line-height: 1.32;
+    }
+
+    .notes li,
+    .defs li,
+    .coeff-list li {
+      margin: 0 0 1.4mm 0;
+    }
+
+    .mono {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.94em;
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <section class="header">
+      <div>
+        <div class="eyebrow">OpenFOAM Turbulence Model Summary</div>
+        <h1>realizableKE_BCS2</h1>
+        <p class="subtitle">
+          Implemented transport equations and correction terms for the realizable k-epsilon
+          turbulence model with curvature, swirl, and optional buoyancy modifications as coded in
+          your local OpenFOAM library.
+        </p>
+      </div>
+      <div class="meta">
+        <div class="meta-row">
+          <div class="pill">
+            <div class="pill-label">Model Type</div>
+            <div class="pill-value">RAS, eddy viscosity</div>
+          </div>
+          <div class="pill">
+            <div class="pill-label">Source Files</div>
+            <div class="pill-value">realizableKE_BCS2 + BuoyantCurvatureSwirlTools2</div>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div class="pill">
+            <div class="pill-label">Default Core Coeffs</div>
+            <div class="pill-value">A0 = 4.0, C2 = 1.9, sigmak = 1.0, sigmaEps = 1.2</div>
+          </div>
+          <div class="pill">
+            <div class="pill-label">Your split_ratio_check realKE2_* Cases</div>
+            <div class="pill-value">Currently set to <span class="mono">model realizableKE;</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="banner">
+      <strong>Important note:</strong> this poster describes the equations implemented in your
+      <span class="mono">realizableKE_BCS2</span> source code. The current
+      <span class="mono">realKE2_4000</span>, <span class="mono">realKE2_4500</span>, and
+      <span class="mono">realKE2_5000</span> cases still select plain
+      <span class="mono">realizableKE</span>, so these BCS2 modifications are not active there
+      unless the model entry is changed.
+    </section>
+
+    <section class="content">
+      <article class="panel accent-teal">
+        <h2>1. Eddy Viscosity Closure</h2>
+        <p class="lead">
+          The model keeps the realizable k-epsilon structure and computes turbulent viscosity from
+          a variable realizable coefficient.
+        </p>
+
+        <div class="eq-block">
+          <div class="eq-title">Turbulent Viscosity</div>
+          <p class="eq">
+            &nu;<sub>t</sub> = r<sub>C&mu;</sub> k<sup>2</sup> / &epsilon;
+          </p>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-title">Realizable Coefficient</div>
+          <p class="eq compact">
+            r<sub>C&mu;</sub> = 1 / (A<sub>0</sub> + A<sub>s</sub> U<sub>s</sub> k / &epsilon;)
+          </p>
+          <p class="eq small compact">
+            W = 2&radic;2 ((S:S):S) / (|S| S<sub>2</sub> + small)
+          </p>
+          <p class="eq small compact">
+            &phi;<sub>s</sub> = (1/3) cos<sup>-1</sup>(clamp(&radic;6 W, -1, 1))
+          </p>
+          <p class="eq small compact">
+            A<sub>s</sub> = &radic;6 cos(&phi;<sub>s</sub>),&nbsp;
+            U<sub>s</sub> = &radic;(S<sub>2</sub>/2 + |skew(&nabla;U)|<sup>2</sup>)
+          </p>
+        </div>
+
+        <ul class="defs">
+          <li><span class="mono">S = dev(symm(gradU))</span> in the realizable coefficient</li>
+          <li><span class="mono">S2 = 2 |dev(symm(gradU))|^2</span> in the solver step</li>
+          <li><span class="mono">&epsilon;</span> is bounded by <span class="mono">0.09 k^2 / (nutMaxCoeff nu)</span></li>
+          <li><span class="mono">omegaLike = &epsilon; / (0.09 max(k, kSmall))</span></li>
+        </ul>
+      </article>
+
+      <article class="panel accent-brick">
+        <h2>2. Implemented Transport Equations</h2>
+        <p class="lead">
+          These are the equations actually assembled in
+          <span class="mono">realizableKE_BCS2.C</span>.
+        </p>
+
+        <div class="eq-block">
+          <div class="eq-title">Epsilon Equation</div>
+          <p class="eq small">
+            &part;(&alpha;&rho;&epsilon;)/&part;t + &nabla;&middot;(&alpha;&rho;U&epsilon;)
+            - &nabla;&middot;(&alpha;&rho;D<sub>&epsilon;,eff</sub>&nabla;&epsilon;)
+          </p>
+          <p class="eq small">
+            = C<sub>1</sub>&alpha;&rho;|S|&epsilon;
+            - C<sub>2</sub>&alpha;&rho;&epsilon;<sup>2</sup> / (k + &radic;(&nu;&epsilon;))
+            - &alpha;&rho; C<sub>1</sub> B (G<sub>b</sub> / (k + k<sub>small</sub>)) &epsilon;
+            + S<sub>&epsilon;</sub>
+          </p>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-title">k Equation</div>
+          <p class="eq small">
+            &part;(&alpha;&rho;k)/&part;t + &nabla;&middot;(&alpha;&rho;Uk)
+            - &nabla;&middot;(&alpha;&rho;D<sub>k,eff</sub>&nabla;k)
+          </p>
+          <p class="eq small">
+            = &alpha;&rho; G f<sub>r,eff</sub>
+            - &alpha;&rho;(G<sub>b</sub> / (k + k<sub>small</sub>)) k
+            - (2/3)&alpha;&rho;k &nabla;&middot;U
+            - &alpha;&rho;&epsilon;
+            + S<sub>k</sub>
+          </p>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-title">Diffusion and Production Terms</div>
+          <p class="eq small compact">
+            D<sub>k,eff</sub> = &nu; + &nu;<sub>t</sub> / &sigma;<sub>k</sub>,&nbsp;
+            D<sub>&epsilon;,eff</sub> = &nu; + &nu;<sub>t</sub> / &sigma;<sub>&epsilon;</sub>
+          </p>
+          <p class="eq small compact">
+            G = &nu;<sub>t</sub> (&nabla;U : dev(2 symm(&nabla;U)))
+          </p>
+          <p class="eq small compact">
+            &eta; = |S| k / &epsilon;,&nbsp;
+            C<sub>1</sub> = max(&eta; / (5 + &eta;), 0.43)
+          </p>
+        </div>
+      </article>
+
+      <article class="panel accent-olive">
+        <h2>3. BCS2 Correction Terms</h2>
+        <p class="lead">
+          The helper computes swirl gating, curvature amplification, and an optional buoyancy term.
+        </p>
+
+        <div class="eq-block">
+          <div class="eq-title">Swirl Sensor</div>
+          <p class="eq small compact">
+            S<sub>local</sub> = |u<sub>&theta;</sub>| / (|U<sub>axial</sub>| + &epsilon;<sub>swirl</sub>)
+          </p>
+          <p class="eq small compact">
+            F<sub>swirl</sub> = clamp((S<sub>local</sub> - S<sub>0</sub>) / (S<sub>1</sub> - S<sub>0</sub>), 0, 1)
+          </p>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-title">Curvature Correction</div>
+          <p class="eq small compact">
+            r* = |S| / max(|&Omega;|, &omega;<sub>small</sub>)
+          </p>
+          <p class="eq small compact">
+            D<sup>2</sup> = max(|S|<sup>2</sup>, 0.09 &omega;<sub>like</sub><sup>2</sup>)
+          </p>
+          <p class="eq small compact">
+            r&#771; = (2 symm(&Omega;S) : DS/Dt) / max(|&Omega;| D<sup>3</sup>, small)
+          </p>
+          <p class="eq small compact">
+            f<sub>rot</sub> =
+            (1 + c<sub>r1</sub>) (2r* / (1 + r*)) (1 - c<sub>r3</sub> tan<sup>-1</sup>(c<sub>r2</sub> r&#771;))
+            - c<sub>r1</sub>
+          </p>
+          <p class="eq small compact">
+            f&#771;<sub>r</sub> = clamp(f<sub>rot</sub>, 0, f<sub>r,max</sub>)
+          </p>
+          <p class="eq small compact">
+            f<sub>r</sub> = max(0, 1 + c<sub>curv</sub>(f&#771;<sub>r</sub> - 1))
+          </p>
+          <p class="eq small compact">
+            f<sub>r,eff</sub> = 1 + F<sub>swirl</sub>(f<sub>r</sub> - 1)
+          </p>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-title">Optional Buoyancy Term</div>
+          <p class="eq small compact">
+            G<sub>b</sub> = C<sub>g</sub> &nu;<sub>t</sub> (g &middot; &nabla;&rho;) / max(&rho;, &rho;<sub>small</sub>)
+          </p>
+          <p class="eq small compact">
+            B = tanh(|v| / u),&nbsp; v = g&#770; &middot; U,&nbsp; u = |U - g&#770;v| + u<sub>small</sub>
+          </p>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-title">Typical Coefficients In Your Dictionaries</div>
+          <ul class="coeff-list">
+            <li>A0 = 4.0, C2 = 1.9, sigmak = 1.0, sigmaEps = 1.2</li>
+            <li>S0 = 0.2, S1 = 0.8, frMax = 1.25, swirlEps = 1e-6</li>
+            <li>Cg = 1.0, axisOrigin = (0 0 0), axisDirection = (0 0 1)</li>
+            <li>In the current realKE2_* runs: curvature = true, swirl = true, buoyancy = false</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+  </main>
+</body>
+</html>
